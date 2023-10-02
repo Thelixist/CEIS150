@@ -28,7 +28,6 @@ def add_stock(stock_list):
 def delete_stock(stock_list):
     found = False
     i = 0
-    print("This method is under construction")
     print("What stock would you like to remove?: ")
     print("Stock List: [", end = ' ')
     for stock in stock_list:
@@ -93,7 +92,7 @@ def add_stock_data(stock_list):
             data = input("Enter Date,Price,Volume: ")
             while data != "":
                 date, price, volume = data.split(",")
-                daily_data = DailyData(datetime.strptime(date,"%m/%d/%y"),float(price),float(volume))
+                daily_data = DailyData(datetime.strptime(date,"%m/%d/%Y"),float(price),float(volume))
                 current_stock.add_data(daily_data)
                 data = input("Enter Date,Price,Volume: ")
                 print("Entry Complete")
@@ -144,11 +143,45 @@ def investment_type(stock_list):
 # Function to create stock chart
 def display_stock_chart(stock_list,symbol):
     print("This method is under construction")
+    date = []
+    price = []
+    volume = []
+    company = ""
+    for stock in stock_list:
+        if stock.symbol == symbol:
+            company = stock.name
+            for dailyData in stock.DataList:
+                date.append(dailyData.date)
+                price.append(dailyData.close)
+                volume.append(dailyData.volume)
+    plt.plot(date, price)
+    plt.xlabel('Date')
+    plt.ylabel("Price")
+    plt.title(company)
+    plt.show()
+
 
 # Display Chart
 def display_chart(stock_list):
-    print("This method is under construction")
-  
+    found = False
+    print("Stock Chart--")
+    print("Stock List: [", end = ' ')
+    for stock in stock_list:
+        print(stock.symbol, end='')
+        
+    print(" ]", end='')
+    userSymbol = input("Pick Stock for Chart: ").upper()
+        
+    for stock in stock_list:
+        if stock.symbol == userSymbol:
+            found = True
+            current_stock = stock
+    if found == True:
+        display_stock_chart(stock_list, current_stock.symbol)
+    else:
+        print("Stock not found")
+        _= input("Press enter to continue--")
+
 
 
                 
